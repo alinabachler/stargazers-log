@@ -1,49 +1,44 @@
-const repositoryList = document.querySelector("#repository-list");
-const statusMessage = document.querySelector("#status");
+async function loadStarredRepositories() {
+  const list = document.querySelector("#starred");
+  const status = document.querySelector("#status");
 
-async function loadRepositories() {
   try {
-    const response = await fetch("./events.json");
+    const response = await fetch("events.json");
     if (!response.ok) {
       throw new Error(`Request failed with status ${response.status}`);
     }
 
-    const repositories = await response.json();
-    if (!Array.isArray(repositories)) {
-      throw new Error("Repository data must be a list");
+    const events = await response.json();
+    if (
+      !Array.isArray(events) ||
+      !events.every(
+        (event) =>
+          event !== null &&
+          typeof event === "object" &&
+          typeof event.name === "string" &&
+          typeof event.starred === "string"
+      )
+    ) {
+      throw new Error("Repository data has an invalid format");
     }
 
-    if (repositories.length === 0) {
-      statusMessage.textContent = "No starred repositories yet.";
+    if (events.length === 0) {
+      status.textContent = "No starred repositories found.";
       return;
     }
 
-    const items = repositories.map((repository) => {
+    const items = events.map((event) => {
       const item = document.createElement("li");
-      const link = document.createElement("a");
-      link.href = repository.url;
-      link.textContent = repository.name;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-
-      const description = document.createElement("p");
-      description.className = "repository-description";
-      description.textContent = repository.description;
-
-      const date = document.createElement("p");
-      date.className = "repository-date";
-      date.textContent = `Starred on ${new Date(repository.starredAt).toLocaleDateString()}`;
-
-      item.append(link, description, date);
+      item.textContent = `${event.name} — starred ${event.starred}`;
       return item;
     });
-
-    repositoryList.replaceChildren(...items);
-    statusMessage.textContent = `${repositories.length} starred repositories`;
+    list.replaceChildren(...items);
+    status.textContent = `${events.length} starred repositories loaded.`;
   } catch (error) {
     console.error("Could not load starred repositories:", error);
-    statusMessage.textContent = "Could not load starred repositories. Please try again later.";
+    status.textContent =
+      "Could not load starred repositories. Please try again later.";
   }
 }
 
-loadRepositories();
+loadStarredRepositories();

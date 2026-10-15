@@ -1,20 +1,5 @@
 [
-  {
-    "name": "microsoft/vscode",
-    "url": "https://github.com/microsoft/vscode",
-    "description": "Visual Studio Code",
-    "starredAt": "2025-03-12"
-  },
-  {
-    "name": "facebook/react",
-    "url": "https://github.com/facebook/react",
-    "description": "The library for web and native user interfaces",
-    "starredAt": "2025-02-24"
-  },
-  {
-    "name": "nodejs/node",
-    "url": "https://github.com/nodejs/node",
-    "description": "Node.js JavaScript runtime",
-    "starredAt": "2025-01-18"
-  }
+  { "name": "octocat/Hello-World", "starred": "2024-01-15" },
+  { "name": "github/docs", "starred": "2024-02-02" },
+  { "name": "octo-org/octo-repo", "starred": "2024-03-21" }
 ]
